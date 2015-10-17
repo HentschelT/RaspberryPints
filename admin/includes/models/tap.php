@@ -1,10 +1,13 @@
 <?php
 class Tap  
 {  
-    private $_id;  
-    private $_beerId;  
-    private $_kegId;
-	private $_tapNumber;  
+	private $_id;  
+	private $_beerId;  
+	private $_kegId;
+	private $_tapNumber;
+	private $_pinId;
+	private $_valvePinId;
+	private $_valveOn;
 	private $_og; 
 	private $_fg;  
 	private $_srm;  
@@ -16,7 +19,7 @@ class Tap
 	private $_modifiedDate; 
 
 	public function __construct(){}
-  
+
 	public function get_id(){ return $this->_id; }
 	public function set_id($_id){ $this->_id = $_id; }
 
@@ -28,6 +31,15 @@ class Tap
 
 	public function get_tapNumber(){ return $this->_tapNumber; }
 	public function set_tapNumber($_tapNumber){ $this->_tapNumber = $_tapNumber; }
+	
+	public function get_valvePinId() { return $this->_valvePinId; }
+	public function set_valvePinId($_pinId){ $this->_valvePinId = $_pinId; }
+	
+	public function get_valveOn() { return $this->_valveOn; }
+	public function set_valveOn($_valveOn){ $this->_valveOn = $_valveOn; }
+	
+	public function get_pinId() { return $this->_pinId; }
+	public function set_pinId($_pinId){ $this->_pinId = $_pinId; }
 	
 	public function get_og(){ return $this->_og; } 
 	public function set_og($_og){ $this->_og = $_og; }
@@ -56,8 +68,8 @@ class Tap
 	public function get_modifiedDate(){ return $this->_modifiedDate; }
 	public function set_modifiedDate($_modifiedDate){ $this->_modifiedDate = $_modifiedDate; }
 	
-    public function setFromArray($postArr)  
-    {  	
+	public function setFromArray($postArr)  
+	{  	
 		if( isset($postArr['id']) )
 			$this->set_id($postArr['id']);
 		else
@@ -77,6 +89,21 @@ class Tap
 			$this->set_tapNumber($postArr['tapNumber']);
 		else
 			$this->set_tapNumber(null);
+			
+		if( isset($postArr['flowPin']) )
+			$this->set_pinId($postArr['flowPin']);
+		else
+			$this->set_pinId('0');
+			
+		if( isset($postArr['valvePin']) )
+			$this->set_valvePinId($postArr['valvePin']);
+		else
+			$this->set_valvePinId('0');
+			
+		if( isset($postArr['valveOn']) )
+			$this->set_valveOn($postArr['valveOn']);
+		else
+			$this->set_valveOn('0');
 			
 		if( isset($postArr['og']) )
 			$this->set_og($postArr['og']);
@@ -138,5 +165,5 @@ class Tap
 			$this->set_modifiedDate($postArr['modifiedDate']);
 		else
 			$this->set_modifiedDate(null);
-    }  
+	}  
 }

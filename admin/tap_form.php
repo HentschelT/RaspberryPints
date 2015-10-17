@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$tap = new Tap();
 		$tap->setFromArray($_POST);
 		$tapManager->Save($tap);
+		file_get_contents('http://' . $_SERVER['SERVER_NAME'] . '/admin/trigger.php?value=config');
 	}
 	redirect('tap_list.php');
 }
@@ -51,6 +52,14 @@ if( isset($_GET['id'])){
 	$tap->set_tapNumber($tapNumber);
 	$tap->set_active(true);
 }
+
+// Code to set config values
+$config = array();
+		$sql = "SELECT * FROM config";
+		$qry = mysql_query($sql);
+		while($c = mysql_fetch_array($qry)){
+			$config[$c['configName']] = $c['configValue'];
+		}
 
 ?>
 
@@ -88,65 +97,65 @@ include 'header.php';
 	<div id="rightside">
 		<div class="contentcontainer med left">
 	<p>
-		fields marked with an * are required
+		Fields marked with <b><font color="red">*</font></b> are required.<br><br>
 
 	<form id="tap-form" method="POST">
 		<input type="hidden" name="id" value="<?php echo $tap->get_id() ?>" />
 		<input type="hidden" name="tapNumber" value="<?php echo $tap->get_tapNumber() ?>" />
 		<input type="hidden" name="active" value="<?php echo $tap->get_active() ?>" />
 		
-		<table width="950" border="0" cellspacing="0" cellpadding="0">
+		<table width="800" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td>
-					Beer*
+				<td width="25%" style="vertical-align:middle;">
+					<b>Beer Name: <font color="red">*</font></b>
 				</td>
 				<td>
 					<?php echo $htmlHelper->ToSelectList("beerId", $beerList, "name", "id", $tap->get_beerId(), "Select One"); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
-					SRM*
+				<td style="vertical-align:middle;">
+					<b>Color</b> (SRM): <b><font color="red">*</font></b>
 				</td>
 				<td>
 					<input type="text" id="srm" class="mediumbox" name="srm" value="<?php echo $tap->get_srm() ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					IBU*
+				<td style="vertical-align:middle;">
+					<b>Bitterness</b> (IBU): <b><font color="red">*</font></b>
 				</td>
 				<td>
 					<input type="text" id="ibu" class="mediumbox" name="ibu" value="<?php echo $tap->get_ibu() ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					OG*
+				<td style="vertical-align:middle;">
+					<b>OG</b> (SG): <b><font color="red">*</font></b>
 				</td>
 				<td>
 					<input type="text" id="og" class="mediumbox" name="og" value="<?php echo $tap->get_og() ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					FG*
+				<td style="vertical-align:middle;">
+					<b>FG</b> (SG): <b><font color="red">*</font></b>
 				</td>
 				<td>
 					<input type="text" id="fg" class="mediumbox" name="fg" value="<?php echo $tap->get_fg() ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					Keg*
+				<td style="vertical-align:middle;">
+					<b>Keg Number: <font color="red">*</font></b>
 				</td>
 				<td>
 					<?php echo $htmlHelper->ToSelectList("kegId", $kegList, "label", "id", $tap->get_kegId(), "Select One"); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
-					Start Amount*
+				<td style="vertical-align:middle;">
+					<b>Start Amount</b> (gal): <b><font color="red">*</font></b>
 				</td>
 				<td>
 					<input type="text" id="startAmount" class="mediumbox" name="startAmount" value="<?php echo $tap->get_startAmount() ?>" />
