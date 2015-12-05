@@ -120,14 +120,19 @@ class TapManager{
 		mysql_query($sql);
 	}
 	
-	function saveTapConfig($tapNumber, $flowPin, $valvePin, $valveOn) {
+	function saveTapConfig($tapNumber, $flowPin, $valvePin, $valveOn, $countpergallon) {
 		$sql="SELECT * FROM tapconfig where tapNumber = $tapNumber";
 		$qry = mysql_query($sql);
 		
 		if( $i = mysql_fetch_array($qry) ){
-			$sql = "UPDATE tapconfig SET flowPin = " . $flowPin . ", valvePin = " . $valvePin . ", valveOn = " . $valveOn ." WHERE tapNumber = " .$tapNumber;
+			$sql = "UPDATE tapconfig SET flowPin = " . $flowPin . 
+									", valvePin = " . $valvePin . 
+									", valveOn = " . $valveOn . 
+									", count = " . $countpergallon . 
+			" WHERE tapNumber = " . $tapNumber;
 		} else {
-			$sql = "INSERT INTO tapconfig (tapNumber, flowPin, valvePin, valveOn) VALUES(" . $tapNumber . ", " . $flowPin . ", " . $valvePin .  ", " . $valveOn . ")";
+			$sql = "INSERT INTO tapconfig (tapNumber, flowPin, valvePin, valveOn, count) VALUES(" . 
+				$tapNumber . ", " . $flowPin . ", " . $valvePin .  ", " . $valveOn . ", " .$countpergallon . ")";
 		}
 		mysql_query($sql);
 	}

@@ -144,6 +144,7 @@ class FlowMonitor(object):
                 if not msg:
                     # check if we need to reconfigure alamode
                     if(self.dispatch.needAlaModeReconfig()):
+                        debug( "alamode reconfig in progress..." )
                         return; # get out and let the caller restart us
                     continue
                 

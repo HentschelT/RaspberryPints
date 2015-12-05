@@ -29,6 +29,7 @@ if (isset ( $_POST ['updateNumberOfTaps'] )) {
 
 } else if (isset ( $_POST ['saveTapConfig'] )) {
 	$tapNumber = $_POST ['tapNumber'];
+	$valveon = 0;
 	$flowpin = 0;
 	if (isset ( $_POST ['flowpin'] )) {
 		$flowpin = $_POST ['flowpin'];
@@ -37,8 +38,11 @@ if (isset ( $_POST ['updateNumberOfTaps'] )) {
 	if (isset ( $_POST ['valvepin'] )) {
 		$valvepin = $_POST ['valvepin'];
 	}
-	$valveon = 0;
-	$tapManager->saveTapConfig ( $tapNumber, $flowpin, $valvepin, $valveon );
+	$countpergallon = 0;
+	if (isset ( $_POST ['countpergallon'] )) {
+		$countpergallon = $_POST ['countpergallon'];
+	}
+	$tapManager->saveTapConfig ( $tapNumber, $flowpin, $valvepin, $valveon, $countpergallon );
 	file_get_contents ( 'http://' . $_SERVER ['SERVER_NAME'] . '/admin/trigger.php?value=valve' );
 	file_get_contents ( 'http://' . $_SERVER ['SERVER_NAME'] . '/admin/trigger.php?value=alamode' );
 	
@@ -164,6 +168,7 @@ include 'header.php';
 						<th>Tap #</th>
 							<?php if($config[ConfigNames::UseFlowMeter]) { ?>
 							<th>Flow Pin (Alamode)</th>
+							<th>Count / Gallon</th>
 							<?php } ?>
 							<?php if($config[ConfigNames::UseTapValves]) { ?>
 							<th>Valve Pin (GPIO)</th>
@@ -188,7 +193,9 @@ include 'header.php';
 							if($config[ConfigNames::UseFlowMeter]) { ?>
 								<td><input type="text" id="flowpin" class="mediumbox"
 								name="flowpin" value="<?php echo $tapconfig["flowPin"]; ?>" /></td>
-							<?php } ?>
+								<td><input type="text" id="countpergallon" class="mediumbox"
+								name="countpergallon" value="<?php echo $tapconfig["count"]; ?>" /></td>
+								<?php } ?>
 											
 							<?php
 							if ($config [ConfigNames::UseTapValves]) {
@@ -226,6 +233,9 @@ include 'header.php';
 								<?php if($config[ConfigNames::UseFlowMeter]) { ?>
 							<td>
 								<input type="text" id="flowpin" class="mediumbox" name="flowpin" value="0" />
+							</td>
+							<td>
+								<input type="text" id="countpergal" class="mediumbox" name="countpergal" value="0" />
 							</td>
 							<?php } ?>
 											

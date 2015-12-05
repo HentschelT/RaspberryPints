@@ -28,25 +28,25 @@ if($db){
 		$PIN = $argv[1];
 		$PULSE_COUNT = $argv[2];
 		
-		echo "pours.php: pour on pin: " . $PIN . ", count: " . $PULSE_COUNT;
-		
 		// SQL call to get corresponding tapID to pinId.
-		$sql = "select tapNumber from tapconfig where flowPin = '".$PIN."'";
+		$sql = "select tapNumber, count from tapconfig where flowPin = '".$PIN."'";
 		$qry = mysql_query($sql);
 		$tapconfig = mysql_fetch_array($qry);
 		if (!$tapconfig[0]) {
-			echo "No Active Tap Config for pin " .$PIN. "\n";
+			echo "pours.php: No Active Tap Config for pin " .$PIN. "\n";
 			exit();
 		}
-				
+		$pourCountConversion = $tapconfig[1];
+		echo "pours.php: pour on pin: " . $PIN . ", count: " . $PULSE_COUNT . ", conversion: " . $pourCountConversion . "\n" ;
+		
 		$sql = "select id from taps where tapNumber = '". $tapconfig[0] ."' and active = '1'";
 		$qry = mysql_query($sql);
 		$taps = mysql_fetch_array($qry);
 		
-		// Sets the amount to be a fraction of a gallon based on 165 ounces per pulse
+		// Sets the amount to be a fraction of a gallon
 		$amount = $PULSE_COUNT / $pourCountConversion;
 		 if (!$taps[0]) {
-                echo "No Active Taps\n";
+                echo "pours.php: No Active Taps\n";
                 } else {
 
 		// Inserts in to the pours table 
