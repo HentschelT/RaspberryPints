@@ -5,7 +5,40 @@ header("location:index.php");
 }
 
 require 'includes/conn.php';
+if (isset ( $_POST ['reboot'] )) {
+	$output = '';
+	$return_var = 0;
+	echo ("rebooting system: ");
+	exec("/usr/bin/sudo /sbin/reboot 2>&1", $output, $return_var);
+	echo (", return var: ");
+	var_dump ($return_var);
+	echo (", output: ");
+	var_dump ($output);
+	header("location:index.php");
+	}
+if (isset ( $_POST ['shutdown'] )) {
+	$output = '';
+	$return_var = 0;
+	echo ("shutting down system");
+	exec("/usr/bin/sudo /sbin/shutdown now 2>&1", $output, $return_var);
+	echo (", return var: ");
+	var_dump ($return_var);
+	echo (", output: ");
+	var_dump ($output);
+	header("location:index.php");
+	}
+if (isset ( $_POST ['restartservice'] )) {
+	$output = '';
+	$return_var = 0;
+	echo ("restarting flowmon service: ");
+	exec("/usr/bin/sudo /usr/sbin/service flowmon restart 2>&1", $output, $return_var);
+	echo (", return var: ");
+	var_dump ($return_var);
+	echo (", output: ");
+	var_dump ($output);
+	}
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -43,9 +76,26 @@ include 'header.php';
 		
 				<br/>
 				<br/>
-				<br/>
-				<br/>
-
+			<form method="POST">
+				<table width="300" border="0" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr>
+							<th colspan="99"><b>Reboot / Shutdown:</b></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="submit" name="reboot" class="btn"
+								value="Reboot System" /></td>
+							<td><input type="submit" name="shutdown" class="btn"
+								value="Shut System Down" /></td>
+							<td><input type="submit" name="restartservice" class="btn"
+								value="Restart Flowmeter Service" /></td>
+								</tr>
+					</tbody>
+				</table>
+			</form>
+				
 	<!-- Start Footer -->   
 <?php 
 include 'footer.php';

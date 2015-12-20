@@ -47,10 +47,7 @@ if (isset ( $_POST ['updateNumberOfTaps'] )) {
 	file_get_contents ( 'http://' . $_SERVER ['SERVER_NAME'] . '/admin/trigger.php?value=alamode' );
 	
 } else if (isset ( $_POST ['flowMeterConfig'] )) {
-	$pourCountConversion = $_POST ['pourCountConversion'];
 	$pourShutOffCount = $_POST ['pourShutOffCount'];
-	$sql = "UPDATE config SET configValue = " . $pourCountConversion . " WHERE configName = \"pourCountConversion\"";
-	mysql_query ( $sql );
 	$sql = "UPDATE config SET configValue = " . $pourShutOffCount . " WHERE configName = \"pourShutOffCount\"";
 	mysql_query ( $sql );
 	file_get_contents ( 'http://' . $_SERVER ['SERVER_NAME'] . '/admin/trigger.php?value=flow' );
@@ -267,12 +264,6 @@ include 'header.php';
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><b>Pour Count per Gallon:</b><br/>How many flow meter counts per gallon</td>
-							<td><input type="text" name="pourCountConversion"
-								class="smallbox"
-								value="<?php echo ($config[ConfigNames::PourCountConversion]) ?>"></td>
-						</tr>
 						<tr>
 							<td><b>Pour Shutoff Count:</b><br/>The flow meter count in one pour after which a tap is shutoff<br/>(only with solenoids installed) </td>
 							<td><input type="text" name="pourShutOffCount" class="smallbox"
