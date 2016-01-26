@@ -340,7 +340,8 @@ CREATE TABLE IF NOT EXISTS `tapconfig` (
   `tapNumber` int(11) DEFAULT NULL,
   `flowPin` int(11) DEFAULT NULL,
   `valvePin` int(11) DEFAULT NULL,
-  `valveOn` int(11) DEFAULT NULL
+  `valveOn` int(11) DEFAULT NULL,
+  `count` float NOT NULL DEFAULT '1500'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
