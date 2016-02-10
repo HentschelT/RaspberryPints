@@ -41,6 +41,10 @@ MCAST_PORT = 0xBEE2
 
 OPTION_RESTART_FANTIMER_AFTER_POUR = config['dispatch.restart_fan_after_pour']
 
+OPTION_VALVETYPE = config['dispatch.valve_type']
+OPTION_VALVEPOWERPIN = config['valve_powerpin']
+OPTION_VALVEPOWERON = 8
+
 def debug(msg):
     if(config['dispatch.debug']):
         print "RPINTS: " + msg
@@ -107,6 +111,10 @@ class PintDispatch(object):
         
         self.flowmonitor = FlowMonitor(self)
         self.fanTimer = None
+        self.valvePowerTimer = None
+        if OPTION_VALVETYPE == 'three_pin_ballvalve':
+            self.valvePowerTimer = Timer(OPTION_VALVEPOWERON, self.valveStopPower)
+    
         self.updateFlowmeterConfig()
         self.updateValvePins()
         
@@ -431,8 +439,23 @@ class PintDispatch(object):
             return True
         return False
 
+    def valveStartPower(self):
+        if self.valvePowerTimer is not None:
+            self.valvePowerTimer.cancel()
+            self.valvePowerTimer = Timer(OPTION_VALVEPOWERON, self.valveStopPower)
+            self.valvePowerTimer.daemon=True
+            self.valvePowerTimer.start()
+            debug( "starting valve power on pin %s for %s seconds" %(OPTION_VALVEPOWERPIN, OPTION_VALVEPOWERON))
+            self.updatepin(OPTION_VALVEPOWERPIN, 1)
+        
+    def valveStopPower(self):
+        debug( "stopping valve power on pin %s" %(OPTION_VALVEPOWERPIN))
+        self.updatepin(OPTION_VALVEPOWERPIN, 0)
+        
     def updateValvePins(self):
         taps = self.getTapConfig()
+        
+        self.valveStartPower()    
         for tap in taps:
             if(tap["valveOn"] is None):
                 tap["valveOn"] = 0
