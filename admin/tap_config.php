@@ -232,7 +232,7 @@ include 'header.php';
 								<input type="text" id="flowpin" class="mediumbox" name="flowpin" value="0" />
 							</td>
 							<td>
-								<input type="text" id="countpergal" class="mediumbox" name="countpergal" value="0" />
+								<input type="text" id="countpergallon" class="mediumbox" name="countpergallon" value="0" />
 							</td>
 							<?php } ?>
 											

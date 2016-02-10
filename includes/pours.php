@@ -50,7 +50,7 @@ if($db){
                 } else {
 
 		// Inserts in to the pours table 
-		$qry = "INSERT INTO pours(tapId, pinId, amountPoured, pulses, createdDate, modifiedDate) values ('".$taps[0]."','".$PIN."','".$amount."','".$PULSE_COUNT."', 'NOW()', 'NOW()' )";
+		$qry = "INSERT INTO pours(tapId, pinId, amountPoured, pulses, createdDate, modifiedDate) values ('".$taps[0]."','".$PIN."','".$amount."','".$PULSE_COUNT."', NOW(), NOW() )";
 		mysql_query($qry);
 } 
 
