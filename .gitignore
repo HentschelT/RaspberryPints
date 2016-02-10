@@ -2,3 +2,4 @@ admin/includes/configp.php
 admin/includes/conn.php
 includes/config.php
 /.project
+/.pydevproject
